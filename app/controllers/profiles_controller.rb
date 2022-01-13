@@ -9,6 +9,13 @@ class ProfilesController < ApplicationController
         updated_profile_params = update_array_attributes_in_params(profile_params)
         @profile = Profile.find(params[:id])
         @profile.avatar.attach(params[:avatar])
+        puts '*'
+        puts '*'
+        puts '*'
+        puts '*'
+        puts '*'
+        puts '*'
+        puts (profile_params["experiences_attributes"])
         if @profile.update(updated_profile_params)
             flash[:success] = "Profile updated successfully."
             redirect_to edit_url
@@ -28,7 +35,10 @@ class ProfilesController < ApplicationController
         def profile_params
             params.require(:profile).permit(:name, :job_title, :total_experience, :overview, 
                 :career_highlights, :primary_skills, :secondary_skills, :avatar,
-                :educations_attributes => [ :id, :school, :degree, :description, :start, :end, :_destroy]
+                :educations_attributes => [ :id, :school, :degree, :description, :start, :end, :_destroy],
+                :experiences_attributes => [ :id, :company, :position, :description, :start, :end, :_destroy, 
+                    :projects_attributes => [:id, :title, :project_url, :tech_stack, :description, :_destroy]
+                ]
             )
         end
 end

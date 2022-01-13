@@ -11,9 +11,16 @@
         <%= render 'shared/edit_section', title: "Profile details" do %>
             <%= f.text_field :name, value: @profile.name || current_user.name, placeholder: "Name" %><br/>
             <div class="flex items-center my-4">
-                <%= image_tag (url_for(@profile.avatar)), 
-                    id: "image-preview", style:"max-width:200px"
-                %>
+                <% if @profile.avatar.attached? %>
+                    <%= image_tag (url_for(@profile.avatar)), 
+                        id: "image-preview", class: "shadow-xl rounded-full", style: "max-width:200px"
+                    %>
+                <% else %>
+                    <%= image_tag gravatar_url_for(current_user), 
+                        id: "image-preview", style:"max-width:200px", 
+                        class: "shadow-xl rounded-full" 
+                    %>
+                <% end %>
             </div>
             <%= f.label "Profile Photo" %>
             <%= f.file_field :avatar %><br>
@@ -33,6 +40,13 @@
             <%= f.text_field :secondary_skills, value: concat_str_with_comma(@profile.secondary_skills), placeholder: "Secondary skills" %>
             <%= render 'shared/multiple_inputs_message' %>
             
+        <% end %>
+
+        <%= render 'shared/edit_section', title: "Experiences and Projects" do %>
+            <%= f.fields_for :experiences do |experience| %>
+                <%= render 'shared/input/experience', experience: experience, f: f %>
+            <% end %><br />
+            <%= render 'shared/input/buttons/add', label: "+ Add Experience", path: "/experiences/new" %>
         <% end %>
 
         <%= render 'shared/edit_section', title: "Education" do %>
