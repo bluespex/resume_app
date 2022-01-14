@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'
   get    'create'  => 'projects#new'
 
-  resources :profiles , only: [:update]
+  resources :profiles , only: [:update, :show]
   resources :educations , only: [:new]
   resources :experiences , only: [:new]
 end
