@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
     include SessionsHelper
-
+    before_action do
+      ActiveStorage::Current.host = request.base_url
+    end
     # Confirms a logged-in user.
     def logged_in_user
         unless logged_in?

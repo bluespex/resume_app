@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+
+    before_action do
+        ActiveStorage::Current.host = request.base_url
+    end
+    
     def new
         @user  = User.new
     end

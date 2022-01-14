@@ -4,7 +4,10 @@ class ProfilesController < ApplicationController
 
     before_action :logged_in_user, only: [:update]
     before_action :correct_user,   only: [:update]
-
+    before_action do
+        ActiveStorage::Current.host = request.base_url
+    end
+    
     def show
         @profile = Profile.find(params[:id])
     end

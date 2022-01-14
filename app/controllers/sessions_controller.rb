@@ -2,7 +2,9 @@ class SessionsController < ApplicationController
   
     def new
     end
-  
+    before_action do
+        ActiveStorage::Current.host = request.base_url
+    end
     def create
         user = User.find_by(email: params[:session][:email].downcase)
         if user && user.authenticate(params[:session][:password])
