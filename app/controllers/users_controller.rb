@@ -16,9 +16,10 @@ class UsersController < ApplicationController
         puts @user.save.inspect
         if @user.save
             log_in(@user)
-            flash[:success] = "Welcome to the Sample App!"
+            flash[:success] = "Welcome to the Resume App!"
             redirect_to (root_path)
         else
+            flash[:danger] = "Could not signup, please check your password and email."
             render :new
         end
     end
